@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Popup Beat Panic</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="desktop">
+      <header class="top-bar">
+        <div class="brand">Internet Explorer Rhythm Cleanup v1.0</div>
+        <div class="hud">
+          <div class="hud-item">
+            <button id="pauseButton" class="mini-btn" type="button" disabled>
+              Pause
+            </button>
+          </div>
+          <div class="hud-item">Mode <span id="hudDifficulty">Normal</span></div>
+          <div class="hud-item">Song <span id="hudSong">Dial-Up Dreams</span></div>
+          <div class="hud-item">Audio <span id="audioState">Locked</span></div>
+          <div class="hud-item">Score <span id="score">0</span></div>
+          <div class="hud-item">Combo <span id="combo">0</span></div>
+          <div class="hud-item">Accuracy <span id="accuracy">100%</span></div>
+          <div class="hud-item">Beat <span id="beat">0.0</span></div>
+        </div>
+      </header>
+
+      <main id="playfield" aria-live="polite"></main>
+
+      <div id="startOverlay" class="overlay">
+        <section class="dialog dialog-wide">
+          <h1>Popup Beat Panic</h1>
+          <p>
+            Nostalgic browser chaos: popups appear on the beat. Click each
+            <strong>X</strong> exactly when the ring closes in on the next beat.
+          </p>
+          <ul>
+            <li>Select a difficulty before connecting.</li>
+            <li>Perfect timing builds combo and score.</li>
+            <li>Misses break combo.</li>
+            <li>Wear headphones for cleaner rhythm timing.</li>
+          </ul>
+          <div class="controls">
+            <label for="difficulty">Difficulty</label>
+            <select id="difficulty">
+              <option value="easy">Easy</option>
+              <option value="normal" selected>Normal</option>
+              <option value="hard">Hard</option>
+            </select>
+            <label for="playerTag">Tag</label>
+            <input id="playerTag" class="tag-input" type="text" maxlength="3" value="YOU" />
+            <label for="songThemeSelect">Song</label>
+            <select id="songThemeSelect"></select>
+            <label for="volume">Volume</label>
+            <input id="volume" type="range" min="0" max="1" step="0.01" value="0.72" />
+            <button id="testToneButton" type="button">Test Sound</button>
+            <button id="openProgressionButton" type="button">Progression Hub</button>
+            <button id="startButton" type="button">Connect &amp; Start</button>
+          </div>
+          <p class="tip">
+            Tip: keep your eyes near the top-right corner of each popup.
+          </p>
+
+          <div class="leaderboard-layout">
+            <section class="panel">
+              <h3>Top Scores</h3>
+              <table class="score-table">
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Tag</th>
+                    <th>Score</th>
+                    <th>Mode</th>
+                    <th>Acc</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody id="startLeaderboardRows"></tbody>
+              </table>
+              <div class="controls controls-tight">
+                <button id="clearLeaderboardButton" type="button">
+                  Clear Leaderboard
+                </button>
+              </div>
+            </section>
+
+            <section class="panel">
+              <h3>Lifetime Stats</h3>
+              <div id="lifetimeStats" class="stats-grid"></div>
+            </section>
+          </div>
+        </section>
+      </div>
+
+      <div id="progressOverlay" class="overlay hidden">
+        <section class="dialog dialog-wide">
+          <h2>Progression Hub</h2>
+          <p>Retro shell, modern grind: unlock songs through XP or high-score milestones.</p>
+
+          <div class="progression-layout">
+            <section class="panel">
+              <h3>Battle Pass</h3>
+              <p class="xp-headline">
+                Level <span id="progressLevel">1</span> · Total XP <span id="progressXp">0</span>
+              </p>
+              <div class="xp-track">
+                <div id="levelProgressFill" class="xp-fill"></div>
+              </div>
+              <p id="levelProgressMeta" class="xp-meta"></p>
+            </section>
+
+            <section class="panel">
+              <h3>Next Unlock</h3>
+              <p class="xp-headline">Best Score <span id="bestScoreProgress">0</span></p>
+              <div class="xp-track">
+                <div id="songProgressFill" class="xp-fill"></div>
+              </div>
+              <p id="songProgressMeta" class="xp-meta"></p>
+              <p id="songUnlockHint" class="tip"></p>
+            </section>
+          </div>
+
+          <div class="progression-layout">
+            <section class="panel">
+              <h3>Current Selection</h3>
+              <p class="xp-headline"><span id="selectedSongProgress">Dial-Up Dreams</span></p>
+              <p class="tip">Set your song in the title menu. Locked songs appear with requirements.</p>
+            </section>
+
+            <section class="panel">
+              <h3>Song Ladder</h3>
+              <div id="songProgressList" class="battlepass-list"></div>
+            </section>
+          </div>
+
+          <div class="controls controls-tight">
+            <button id="closeProgressionButton" type="button">Back</button>
+          </div>
+        </section>
+      </div>
+
+      <div id="menuOverlay" class="overlay hidden">
+        <section class="dialog">
+          <h2>Paused</h2>
+          <p>Session is paused. Resume when you are ready to continue.</p>
+          <div class="controls">
+            <label for="menuVolume">Volume</label>
+            <input id="menuVolume" type="range" min="0" max="1" step="0.01" value="0.72" />
+          </div>
+          <div class="controls">
+            <button id="resumeButton" type="button">Resume</button>
+            <button id="menuRestartButton" type="button">Restart Run</button>
+            <button id="menuQuitButton" type="button">Quit To Title</button>
+          </div>
+          <p class="tip">Shortcuts: press Esc or P to pause/resume.</p>
+        </section>
+      </div>
+
+      <div id="resultOverlay" class="overlay hidden">
+        <section class="dialog dialog-wide">
+          <h2>Session Complete</h2>
+          <p id="resultStats"></p>
+          <p id="resultRank" class="result-rank"></p>
+          <p id="resultProgress" class="result-progress"></p>
+
+          <section class="panel result-recap">
+            <h3>Run Rewards</h3>
+            <div class="reward-strip">
+              <div class="reward-pill">
+                <span>Player</span>
+                <strong id="resultTag">YOU</strong>
+              </div>
+              <div class="reward-pill">
+                <span>XP Earned</span>
+                <strong id="resultXpEarned">+0</strong>
+              </div>
+              <div class="reward-pill">
+                <span>Battle Pass</span>
+                <strong id="resultLevelNow">Lv 1</strong>
+              </div>
+            </div>
+
+            <div class="meter-block">
+              <div class="meter-head">
+                <span>Battle Pass Progress</span>
+                <span id="resultLevelDelta">0 / 0</span>
+              </div>
+              <div class="xp-track xp-track-large">
+                <div id="resultLevelFill" class="xp-fill"></div>
+              </div>
+              <p id="resultLevelMeta" class="tip"></p>
+            </div>
+
+            <div class="meter-block">
+              <div class="meter-head">
+                <span>Next Song Unlock</span>
+                <span id="resultSongDelta">0%</span>
+              </div>
+              <div class="xp-track xp-track-large">
+                <div id="resultSongFill" class="xp-fill"></div>
+              </div>
+              <p id="resultSongMeta" class="tip"></p>
+            </div>
+
+            <p id="resultUnlocks" class="unlock-banner hidden"></p>
+          </section>
+
+          <div class="leaderboard-layout">
+            <section class="panel">
+              <h3>Top Scores</h3>
+              <table class="score-table">
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Tag</th>
+                    <th>Score</th>
+                    <th>Mode</th>
+                    <th>Acc</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody id="resultLeaderboardRows"></tbody>
+              </table>
+              <div class="controls controls-tight">
+                <button id="clearLeaderboardResultButton" type="button">
+                  Clear Leaderboard
+                </button>
+              </div>
+            </section>
+
+            <section class="panel">
+              <h3>Lifetime Stats</h3>
+              <div id="resultLifetimeStats" class="stats-grid"></div>
+            </section>
+          </div>
+
+          <div class="controls controls-tight">
+            <button id="openProgressionResultButton" type="button">Progression Hub</button>
+            <button id="restartButton" type="button">Restart Run</button>
+            <button id="resultMenuButton" type="button">Quit To Title</button>
+          </div>
+        </section>
+      </div>
+
+      <div id="toast" class="toast" aria-live="polite"></div>
+    </div>
+
+    <script src="game.js"></script>
+  </body>
+</html>
