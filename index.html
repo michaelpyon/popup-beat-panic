@@ -17,6 +17,18 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div id="mobile-notice" style="display:none; position:fixed; inset:0; z-index:9999; background:#c0c0c0; color:#000; font-family:'Segoe UI',Tahoma,sans-serif; padding:2rem; text-align:center; flex-direction:column; justify-content:center; align-items:center; gap:1.5rem; border:3px inset #dfdfdf;">
+      <div style="font-size:3rem;">💥</div>
+      <h1 style="font-size:1.3rem; font-weight:700; margin:0; font-family:'Segoe UI',Tahoma,sans-serif;">Popup Beat Panic Needs a Mouse</h1>
+      <p style="font-size:0.9rem; color:#333; max-width:320px; line-height:1.5; margin:0 auto;">This rhythm game requires precise mouse clicks to close popups on the beat. The full retro IE experience needs a desktop browser.</p>
+      <a href="https://pyon.dev" style="color:#0000EE; font-size:0.9rem;">← Back to pyon.dev</a>
+    </div>
+    <script>
+      if (/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) || window.innerWidth < 768) {
+        document.getElementById('mobile-notice').style.display = 'flex';
+        document.getElementById('desktop').style.display = 'none';
+      }
+    </script>
     <div id="desktop">
       <header class="top-bar">
         <div class="brand">Internet Explorer Rhythm Cleanup v1.0</div>
