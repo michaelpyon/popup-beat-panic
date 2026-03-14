@@ -17,13 +17,93 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💥</text></svg>">
     <title>Popup Beat Panic</title>
     <link rel="stylesheet" href="style.css" />
+    <style>
+      .mobile-gate {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: #c0c0c0;
+        color: #000;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        padding: 2rem;
+        text-align: center;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1.5rem;
+        overflow-y: auto;
+        border: 3px inset #dfdfdf;
+      }
+      .mobile-gate h1 {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+      }
+      .mobile-gate > p {
+        font-size: 0.9rem;
+        color: #333;
+        max-width: 320px;
+        line-height: 1.5;
+        margin: 0 auto;
+      }
+      .mobile-gate .preview-card {
+        width: 100%;
+        max-width: 320px;
+        border: 2px inset #888;
+        border-radius: 0;
+        padding: 4px;
+        background: #fff;
+      }
+      .mobile-gate .preview-card img {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0;
+        border: 1px solid #999;
+        display: block;
+      }
+      .mobile-gate .explain {
+        font-size: 0.85rem;
+        color: #444;
+        max-width: 320px;
+        line-height: 1.5;
+        margin: 0 auto;
+      }
+      .mobile-gate button {
+        width: 100%;
+        max-width: 320px;
+        min-height: 52px;
+        background: #c0c0c0;
+        color: #000;
+        border: 2px outset #dfdfdf;
+        border-radius: 0;
+        font-size: 0.95rem;
+        font-weight: 700;
+        cursor: pointer;
+        padding: 0 1.5rem;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+      }
+      .mobile-gate button:active {
+        border-style: inset;
+      }
+      @media (max-width: 768px) {
+        .mobile-gate { display: flex; }
+        #desktop { display: none !important; }
+      }
+    </style>
   </head>
   <body>
-    <div id="mobile-notice" style="display:none; position:fixed; inset:0; z-index:9999; background:#c0c0c0; color:#000; font-family:'Segoe UI',Tahoma,sans-serif; padding:2rem; text-align:center; flex-direction:column; justify-content:center; align-items:center; gap:1.5rem; border:3px inset #dfdfdf;">
-      <div style="font-size:3rem;">💥</div>
-      <h1 style="font-size:1.3rem; font-weight:700; margin:0; font-family:'Segoe UI',Tahoma,sans-serif;">Popup Beat Panic Needs a Mouse</h1>
-      <p style="font-size:0.9rem; color:#333; max-width:320px; line-height:1.5; margin:0 auto;">This rhythm game requires precise mouse clicks to close popups on the beat. The full retro IE experience needs a desktop browser.</p>
-      <a href="https://pyon.dev" style="color:#0000EE; font-size:0.9rem;">← Back to pyon.dev</a>
+    <div class="mobile-gate" id="mobile-notice">
+      <h1>🖱️ Popup Beat Panic</h1>
+      <p>Nostalgic browser chaos: popups appear on the beat. Click them before they multiply.</p>
+      <div class="preview-card">
+        <img src="og.png" alt="Popup Beat Panic preview" />
+      </div>
+      <p class="explain">This game requires a mouse and desktop browser. The popups won't wait for your thumbs.</p>
+      <button onclick="navigator.clipboard.writeText('https://michaelpyon.github.io/popup-beat-panic/').then(() => this.textContent = 'Link copied!')">
+        📋 Copy Link for Desktop
+      </button>
     </div>
     <script>
       if (/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) || window.innerWidth < 768) {
