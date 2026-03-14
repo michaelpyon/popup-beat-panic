@@ -1102,3 +1102,22 @@ button:active {
     grid-template-columns: 1fr;
   }
 }
+
+/* ── Share on X button ── */
+.share-x-btn {
+  background: linear-gradient(180deg, #1a1a1a, #000);
+  color: #fff;
+  border-top: 2px solid #444;
+  border-left: 2px solid #444;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+  display: inline-flex;
+  align-items: center;
+}
+
+.share-x-btn:active {
+  border-top-color: #000;
+  border-left-color: #000;
+  border-right-color: #444;
+  border-bottom-color: #444;
+}

@@ -1039,6 +1039,7 @@
       this.startButton = document.getElementById("startButton");
       this.restartButton = document.getElementById("restartButton");
       this.resultMenuButton = document.getElementById("resultMenuButton");
+      this.shareResultButton = document.getElementById("shareResultButton");
       this.openProgressionButton = document.getElementById("openProgressionButton");
       this.openProgressionResultButton = document.getElementById("openProgressionResultButton");
       this.closeProgressionButton = document.getElementById("closeProgressionButton");
@@ -2139,6 +2140,10 @@
         this.resultMenuButton.addEventListener("click", () => this.quitToTitle());
       }
 
+      if (this.shareResultButton) {
+        this.shareResultButton.addEventListener("click", () => this.shareResult());
+      }
+
       if (this.openProgressionButton) {
         this.openProgressionButton.addEventListener("click", () => this.openProgressionHub("start"));
       }
@@ -2902,6 +2907,19 @@
       } else {
         this.showToast("Run saved.");
       }
+    }
+
+    shareResult() {
+      const score = Math.round(this.state.score);
+      const text = encodeURIComponent(
+        `I scored ${score} on Popup Beat Panic 🖱️💥 Can you beat it?`
+      );
+      const url = encodeURIComponent("https://michaelpyon.github.io/popup-beat-panic/");
+      window.open(
+        `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
+        "_blank",
+        "noopener,noreferrer"
+      );
     }
 
     clearPopups() {
