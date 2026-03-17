@@ -1738,8 +1738,18 @@
         accuracyCell.textContent = `${entry.accuracy.toFixed(1)}%`;
         dateCell.textContent = this.formatShortDate(entry.playedAt);
 
+        row.style.opacity = "0";
+        row.style.transform = "translateY(8px)";
+        row.style.transition = "opacity 180ms ease, transform 180ms ease";
         row.append(rankCell, tagCell, scoreCell, modeCell, accuracyCell, dateCell);
         target.append(row);
+
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            row.style.opacity = "1";
+            row.style.transform = "translateY(0)";
+          }, index * 60);
+        });
       });
     }
 

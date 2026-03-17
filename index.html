@@ -17,6 +17,7 @@
     <meta name="description" content="Popups appear on the beat. Click each X when the ring closes. A rhythm game disguised as an IE nightmare." />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💥</text></svg>">
     <link rel="canonical" href="https://michaelpyon.github.io/popup-beat-panic/" />
+    <meta name="theme-color" content="#2550ac" />
     <title>Popup Beat Panic — Nostalgic Browser Chaos</title>
     <link rel="stylesheet" href="style.css" />
     <style>
@@ -125,18 +126,18 @@
           <div class="hud-item">Mode <span id="hudDifficulty">Normal</span></div>
           <div class="hud-item">Song <span id="hudSong">Dial-Up Dreams</span></div>
           <div class="hud-item">Audio <span id="audioState">Locked</span></div>
-          <div class="hud-item">Score <span id="score">0</span></div>
-          <div class="hud-item">Combo <span id="combo">0</span></div>
-          <div class="hud-item">Accuracy <span id="accuracy">100%</span></div>
-          <div class="hud-item">Beat <span id="beat">0.0</span></div>
+          <div class="hud-item">Score <span id="score" class="nums">0</span></div>
+          <div class="hud-item">Combo <span id="combo" class="nums">0</span></div>
+          <div class="hud-item">Accuracy <span id="accuracy" class="nums">100%</span></div>
+          <div class="hud-item">Beat <span id="beat" class="nums">0.0</span></div>
         </div>
       </header>
 
       <main id="playfield" aria-live="polite"></main>
 
       <div id="startOverlay" class="overlay">
-        <section class="dialog dialog-wide">
-          <h1>Popup Beat Panic</h1>
+        <section class="dialog dialog-wide" role="dialog" aria-modal="true" aria-labelledby="startHeading">
+          <h1 id="startHeading">Popup Beat Panic</h1>
           <p>
             Nostalgic browser chaos: popups appear on the beat. Click each
             <strong>X</strong> exactly when the ring closes in on the next beat.
@@ -200,8 +201,8 @@
       </div>
 
       <div id="progressOverlay" class="overlay hidden">
-        <section class="dialog dialog-wide">
-          <h2>Progression Hub</h2>
+        <section class="dialog dialog-wide" role="dialog" aria-modal="true" aria-labelledby="progressHeading">
+          <h2 id="progressHeading">Progression Hub</h2>
           <p>Retro shell, modern grind: unlock songs through XP or high-score milestones.</p>
 
           <div class="progression-layout">
@@ -247,8 +248,8 @@
       </div>
 
       <div id="menuOverlay" class="overlay hidden">
-        <section class="dialog">
-          <h2>Paused</h2>
+        <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="menuHeading">
+          <h2 id="menuHeading">Paused</h2>
           <p>Session is paused. Resume when you are ready to continue.</p>
           <div class="controls">
             <label for="menuVolume">Volume</label>
@@ -264,8 +265,8 @@
       </div>
 
       <div id="resultOverlay" class="overlay hidden">
-        <section class="dialog dialog-wide">
-          <h2>Session Complete</h2>
+        <section class="dialog dialog-wide" role="dialog" aria-modal="true" aria-labelledby="resultHeading">
+          <h2 id="resultHeading">Session Complete</h2>
           <p id="resultStats"></p>
           <p id="resultRank" class="result-rank"></p>
           <p id="resultProgress" class="result-progress"></p>
