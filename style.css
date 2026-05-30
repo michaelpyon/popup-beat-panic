@@ -1222,6 +1222,15 @@ button:active {
   border-bottom: 2px solid #000;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  min-height: 44px;
+}
+
+.copy-result-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
 }
 
 .share-x-btn:active {

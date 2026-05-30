@@ -1040,6 +1040,7 @@
       this.restartButton = document.getElementById("restartButton");
       this.resultMenuButton = document.getElementById("resultMenuButton");
       this.shareResultButton = document.getElementById("shareResultButton");
+      this.copyResultButton = document.getElementById("copyResultButton");
       this.openProgressionButton = document.getElementById("openProgressionButton");
       this.openProgressionResultButton = document.getElementById("openProgressionResultButton");
       this.closeProgressionButton = document.getElementById("closeProgressionButton");
@@ -2154,6 +2155,10 @@
         this.shareResultButton.addEventListener("click", () => this.shareResult());
       }
 
+      if (this.copyResultButton) {
+        this.copyResultButton.addEventListener("click", () => this.copyShareResult());
+      }
+
       if (this.openProgressionButton) {
         this.openProgressionButton.addEventListener("click", () => this.openProgressionHub("start"));
       }
@@ -2919,11 +2924,36 @@
       }
     }
 
-    shareResult() {
+    buildShareText() {
+      const popups = this.state.hits;
       const score = Math.round(this.state.score);
-      const text = encodeURIComponent(
-        `I scored ${score} on Popup Beat Panic 🖱️💥 Can you beat it?`
-      );
+      const popupWord = popups === 1 ? "popup" : "popups";
+      return `I survived ${popups} ${popupWord} in Popup Beat Panic (score ${score}). Think you can beat it?`;
+    }
+
+    async copyShareResult() {
+      const text = `${this.buildShareText()} https://michaelpyon.github.io/popup-beat-panic/`;
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          const ta = document.createElement("textarea");
+          ta.value = text;
+          ta.style.position = "fixed";
+          ta.style.opacity = "0";
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+        }
+        this.showToast("Result copied to clipboard.");
+      } catch (err) {
+        this.showToast("Could not copy. Try Share on X instead.");
+      }
+    }
+
+    shareResult() {
+      const text = encodeURIComponent(this.buildShareText());
       const url = encodeURIComponent("https://michaelpyon.github.io/popup-beat-panic/");
       window.open(
         `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
