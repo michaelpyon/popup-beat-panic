@@ -2937,7 +2937,7 @@
     }
 
     async copyShareResult() {
-      const text = `${this.buildShareText()} https://michaelpyon.github.io/popup-beat-panic/`;
+      const text = `${this.buildShareText()} https://popup-beat-panic.vercel.app/`;
       try {
         if (navigator.clipboard && navigator.clipboard.writeText) {
           await navigator.clipboard.writeText(text);
@@ -2959,7 +2959,7 @@
 
     shareResult() {
       const text = encodeURIComponent(this.buildShareText());
-      const url = encodeURIComponent("https://michaelpyon.github.io/popup-beat-panic/");
+      const url = encodeURIComponent("https://popup-beat-panic.vercel.app/");
       window.open(
         `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
         "_blank",
