@@ -2927,8 +2927,13 @@
     buildShareText() {
       const popups = this.state.hits;
       const score = Math.round(this.state.score);
+      const accuracy = this.state.judged
+        ? ((this.state.hits / this.state.judged) * 100).toFixed(1)
+        : "100.0";
+      const difficulty = this.currentDifficulty.label;
+      const maxCombo = this.state.maxCombo;
       const popupWord = popups === 1 ? "popup" : "popups";
-      return `I survived ${popups} ${popupWord} in Popup Beat Panic (score ${score}). Think you can beat it?`;
+      return `Popup Beat Panic [${difficulty}] | Score: ${score} | ${accuracy}% acc | ${maxCombo}x combo | ${popups} ${popupWord} closed. Can you beat it?`;
     }
 
     async copyShareResult() {
