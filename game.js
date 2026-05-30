@@ -2865,8 +2865,13 @@
       )} | Hits ${this.state.hits} | Misses ${this.state.misses} | Max Combo ${
         this.state.maxCombo
       } | Accuracy ${accuracy.toFixed(1)}% | XP +${xpEarned} | Lv ${levelInfo.level}`;
+      const isNewBest = newBestScore > previousBestScore && previousBestScore > 0;
       if (this.resultRankEl) {
-        if (runRecord && runRecord.rank > 0) {
+        this.resultRankEl.classList.toggle("new-best", isNewBest);
+        if (isNewBest) {
+          const rankSuffix = runRecord && runRecord.rank > 0 ? ` (#${runRecord.rank})` : "";
+          this.resultRankEl.textContent = `New Personal Best!${rankSuffix}`;
+        } else if (runRecord && runRecord.rank > 0) {
           const rankLabel =
             runRecord.rank <= LEADERBOARD_LIMIT
               ? `Leaderboard Rank: #${runRecord.rank}`
@@ -2915,6 +2920,8 @@
             .map((songId) => SONG_THEMES[songId].label)
             .join(", ")}.`,
         );
+      } else if (isNewBest) {
+        this.showToast(`New personal best: ${newBestScore}!`);
       } else if (levelUps > 0) {
         this.showToast(`Run saved. Level up to Lv ${levelInfo.level}.`);
       } else if (runRecord && runRecord.rank > 0) {

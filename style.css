@@ -656,6 +656,16 @@ body {
   color: #1e4f98;
 }
 
+.result-rank.new-best {
+  color: #8a5e00;
+  background: linear-gradient(90deg, #fff8e1, #fffce8);
+  border: 1px solid #e8c84a;
+  border-radius: 4px;
+  padding: 3px 8px;
+  display: inline-block;
+  letter-spacing: 0.02em;
+}
+
 .result-progress {
   margin-top: -8px;
   font-size: 12px;
