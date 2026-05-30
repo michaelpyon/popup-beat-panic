@@ -2865,10 +2865,13 @@
       )} | Hits ${this.state.hits} | Misses ${this.state.misses} | Max Combo ${
         this.state.maxCombo
       } | Accuracy ${accuracy.toFixed(1)}% | XP +${xpEarned} | Lv ${levelInfo.level}`;
+      const isFirstRun = previousBestScore === 0 && newBestScore > 0;
       const isNewBest = newBestScore > previousBestScore && previousBestScore > 0;
       if (this.resultRankEl) {
-        this.resultRankEl.classList.toggle("new-best", isNewBest);
-        if (isNewBest) {
+        this.resultRankEl.classList.toggle("new-best", isNewBest || isFirstRun);
+        if (isFirstRun) {
+          this.resultRankEl.textContent = "First Score Set! Great run.";
+        } else if (isNewBest) {
           const rankSuffix = runRecord && runRecord.rank > 0 ? ` (#${runRecord.rank})` : "";
           this.resultRankEl.textContent = `New Personal Best!${rankSuffix}`;
         } else if (runRecord && runRecord.rank > 0) {
@@ -2920,6 +2923,8 @@
             .map((songId) => SONG_THEMES[songId].label)
             .join(", ")}.`,
         );
+      } else if (isFirstRun) {
+        this.showToast(`First score: ${newBestScore}. Now beat it!`);
       } else if (isNewBest) {
         this.showToast(`New personal best: ${newBestScore}!`);
       } else if (levelUps > 0) {
@@ -2940,7 +2945,8 @@
       const difficulty = this.currentDifficulty.label;
       const maxCombo = this.state.maxCombo;
       const popupWord = popups === 1 ? "popup" : "popups";
-      return `Popup Beat Panic [${difficulty}] | Score: ${score} | ${accuracy}% acc | ${maxCombo}x combo | ${popups} ${popupWord} closed. Can you beat it?`;
+      const songLabel = (this.song && this.song.songTheme && this.song.songTheme.label) || "Dial-Up Dreams";
+      return `Popup Beat Panic [${difficulty}] | ${songLabel} | Score: ${score} | ${accuracy}% acc | ${maxCombo}x combo | ${popups} ${popupWord} closed. Can you beat it?`;
     }
 
     async copyShareResult() {

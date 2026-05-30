@@ -38,13 +38,11 @@ This is a DEPLOY-NEEDED situation. The repo HEAD is correct, but it has never be
 2. **Deploy HEAD to Vercel** (NEEDS DECISION, not a code change)
    The canonical-URL and share-link fixes from commit 9c06e36 are in main but the live CDN still serves the old github.io build. Michael needs to trigger a Vercel redeploy (push a trivial change, or re-deploy via dashboard). Effort: S. Deploy required.
 
-3. **Share text: add song name** (S effort)
-   File: `game.js`, `buildShareText()`
-   Current share text omits which song was played. "Popup Beat Panic [Hard] | Neon Cache | Score: 18240 | ..." is more specific and signals progression to readers. One line change.
+3. **Share text: add song name** (SHIPPED wave 2)
+   `buildShareText()` now includes the active song label, e.g. "Popup Beat Panic [Hard] | Dial-Up Dreams | Score: 18240 | ...".
 
-4. **First-run personal best skip logic** (S effort, bug/feel)
-   File: `game.js`
-   Currently `isNewBest` is only true when `previousBestScore > 0`. On the very first run, the player scores their personal best by definition but sees nothing special. Consider showing "First Run Complete!" or surfacing the score prominently instead of a silent result. Low risk.
+4. **First-run personal best skip logic** (SHIPPED wave 2)
+   First run now shows "First Score Set! Great run." in gold on the result screen and a "First score: N. Now beat it!" toast, matching the new-best treatment. The `isFirstRun` flag is `previousBestScore === 0 && newBestScore > 0`.
 
 ### Medium Bets (M effort)
 
